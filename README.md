@@ -41,14 +41,13 @@ In order to create the packages used by the build pack, you must compile Apache,
     cp /usr/lib64/libmysqlclient.so.18 /app/php/ext/
     cp /usr/lib/libmcrypt.so /app/php/ext/
     cp /usr/lib/libmcrypt.so.4 /app/php/ext/
-    apt-get install php5-dev php-pear
-    pear config-set php_dir /app/php
-    pecl install apc
-    mkdir /app/php/include/php/ext/apc
-    cp /usr/lib/php5/20090626/apc.so /app/php/ext/
-    cp /usr/include/php5/ext/apc/apc_serializer.h /app/php/include/php/ext/apc/
-    pecl install memcache
-    cp /usr/lib/php5/20090626/memcache.so /app/php/ext/
+    wget http://pecl.php.net/get/APC
+    tar -zxvf APC
+    cd APC-3.1.10
+    /app/php/bin/phpize
+    ./configure --enable-apc --enable-apc-mmap --with-php-config=/app/php/bin/php-config
+    make
+    make install
 
     # Create packages
     cd /app
