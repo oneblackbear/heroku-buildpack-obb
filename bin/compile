@@ -56,8 +56,6 @@ if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
     echo "-----> Installing dependencies"
     export LD_LIBRARY_PATH=$BUILD_DIR/php/ext
     export PHP_INI_SCAN_DIR=$BUILD_DIR/www
-    echo "Cating ---"
-    cat /app/php/php.ini
     echo "---"
     pwd
     echo "---"
