@@ -39,12 +39,12 @@ echo "-----> Bundling PHP version $PHP_VERSION"
 curl --silent --max-time 60 --location "$PHP_URL" | tar xz
 
 # update config files
-cp $LP_DIR/conf/httpd.conf $APACHE_PATH/conf
-cp $LP_DIR/conf/php.ini php
+cp $LP_DIR/conf/httpd.conf $BUILD_DIR/$APACHE_PATH/conf
+cp $LP_DIR/conf/php.ini $BUILD_DIR/$PHP_PATH
 
 # make php available on bin
 mkdir -p bin
-ln -s /app/php/bin/php bin/php
+ln -s $BUILD_DIR/php/bin/php bin/php
 
 if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
     GIT_DIR_ORIG=$GIT_DIR
@@ -56,6 +56,7 @@ if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
     echo "-----> Installing dependencies"
     export LD_LIBRARY_PATH=$BUILD_DIR/php/ext
     export PHP_INI_SCAN_DIR=$BUILD_DIR/www
+    cat $LP_DIR/conf/php.ini
     echo "---"
     pwd
     echo "---"
@@ -71,16 +72,16 @@ fi
 
 cat >>boot.sh <<EOF
 for var in \`env|cut -f1 -d=\`; do
-  echo "PassEnv \$var" >> /app/apache/conf/httpd.conf;
+  echo "PassEnv \$var" >> $BUILD_DIR/apache/conf/httpd.conf;
 done
-touch /app/apache/logs/error_log
-touch /app/apache/logs/access_log
-tail -F /app/apache/logs/error_log &
-tail -F /app/apache/logs/access_log &
-export LD_LIBRARY_PATH=/app/php/ext
-export PHP_INI_SCAN_DIR=/app/www
+touch $BUILD_DIR/apache/logs/error_log
+touch $BUILD_DIR/apache/logs/access_log
+tail -F $BUILD_DIR/apache/logs/error_log &
+tail -F $BUILD_DIR/apache/logs/access_log &
+export LD_LIBRARY_PATH=$BUILD_DIR/php/ext
+export PHP_INI_SCAN_DIR=$BUILD_DIR/www
 echo "Launching Apache"
-exec /app/apache/bin/httpd -DNO_DETACH
+exec $BUILD_DIR/apache/bin/httpd -DNO_DETACH
 EOF
 
 chmod +x boot.sh
