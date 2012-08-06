@@ -39,12 +39,13 @@ echo "-----> Bundling PHP version $PHP_VERSION"
 curl --silent --max-time 60 --location "$PHP_URL" | tar xz
 
 # update config files
-cp $LP_DIR/conf/httpd.conf /app/apache/conf
+cp $LP_DIR/conf/httpd.conf $APACHE_PATH/conf
+cp $LP_DIR/conf/php.ini php
 cp $LP_DIR/conf/php.ini /app/php
 
 # make php available on bin
-mkdir -p /bin
-ln -s /app/php/bin/php /bin/php
+mkdir -p bin
+ln -s /app/php/bin/php bin/php
 
 if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
     GIT_DIR_ORIG=$GIT_DIR
@@ -54,8 +55,7 @@ if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
     curl --silent --max-time 60 --location "$COMPOSER_URL" > www/composer.phar
     cd www
     echo "-----> Installing dependencies"
-    /app/php/bin/php --ini
-    LD_LIBRARY_PATH=/app/php/ext /app/php/bin/php composer.phar install
+    LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -c /app/php/php.ini composer.phar install
     cd $BUILD_DIR
     rm www/composer.phar
     export GIT_DIR=$GIT_DIR_ORIG
