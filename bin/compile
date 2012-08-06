@@ -54,6 +54,7 @@ if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
     curl --silent --max-time 60 --location "$COMPOSER_URL" > www/composer.phar
     cd www
     echo "-----> Installing dependencies"
+    LD_LIBRARY_PATH=$BUILD_DIR/php/ext PHP_INI_SCAN_DIR=/app/www $BUILD_DIR/php/bin/php -i
     LD_LIBRARY_PATH=$BUILD_DIR/php/ext PHP_INI_SCAN_DIR=/app/www $BUILD_DIR/php/bin/php composer.phar install
     cd $BUILD_DIR
     rm www/composer.phar
