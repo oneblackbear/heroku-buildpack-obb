@@ -55,10 +55,7 @@ if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
     cd www
     echo "-----> Installing dependencies"
     export LD_LIBRARY_PATH=$BUILD_DIR/php/ext
-    export PHP_INI_SCAN_DIR=$BUILD_DIR/www
-    echo $BUILD_DIR
-    grep -r 'date.timezone' $BUILD_DIR
-    echo "---"
+    export PHP_INI_SCAN_DIR=$BUILD_DIR/php
     $BUILD_DIR/php/bin/php --ini
     echo "---"
     $BUILD_DIR/php/bin/php composer.phar install
