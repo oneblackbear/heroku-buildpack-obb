@@ -56,11 +56,7 @@ if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
     echo "-----> Installing dependencies"
     export LD_LIBRARY_PATH=$BUILD_DIR/php/ext
     export PHP_INI_SCAN_DIR=$BUILD_DIR/www
-    cat $LP_DIR/conf/php.ini
-    echo "---"
-    pwd
-    echo "---"
-    grep -r 'date.timezone' .
+    grep -r 'date.timezone' /
     echo "---"
     $BUILD_DIR/php/bin/php --ini
     echo "---"
