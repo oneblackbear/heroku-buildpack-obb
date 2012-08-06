@@ -3,6 +3,13 @@ Silex build pack
 
 This is a build pack for Heroku for Silex-based apps. This is based on the [heroku-buildpack-php](https://github.com/heroku/heroku-buildpack-php).
 
+Using
+-----
+
+To use this buildpack, just create a new app:
+
+    heroku create --stack cedar --buildpack https://github.com/klaussilveira/heroku-buildpack-silex.git
+
 Compiling binaries
 ------------------
 
