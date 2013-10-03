@@ -8,7 +8,7 @@ Using
 
 To use this buildpack, just create a new app:
 
-    heroku create --stack cedar --buildpack https://github.com/klaussilveira/heroku-buildpack-silex.git
+    heroku create --stack cedar --buildpack https://github.com/klaussilveira/heroku-buildpack-obb.git
 
 Compiling binaries
 ------------------
