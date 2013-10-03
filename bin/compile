@@ -64,6 +64,14 @@ fi
 
 #now we're going to run grunt to perform the client side build
 # install dependencies with npm
+function indent() {
+  c='s/^/ /'
+  case $(uname) in
+    Darwin) sed -l "$c";;
+    *) sed -u "$c";;
+  esac
+}
+
 function run_npm() {
   command="$1"
   
