@@ -4,7 +4,7 @@ build_dir=$1
 cache_basedir=$2
 bp_dir=$(cd $(dirname $0); cd ..; pwd)
 
-source $bp_dir/bin/common.sh
+source $BIN_DIR/common.sh
 
 # Output npm debug info on error
 trap cat_npm_debug_log ERR
