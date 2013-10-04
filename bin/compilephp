@@ -37,7 +37,7 @@ cp $LP_DIR/conf/php.ini php
 mkdir -p bin
 ln -s /php/bin/php bin/php
 
-if [ -f www/composer.json ] && [ ! -d vendor ]; then
+if [ -f composer.json ] && [ ! -d vendor ]; then
     GIT_DIR_ORIG=$GIT_DIR
     unset GIT_DIR
     echo "-----> Bundling Composer"
