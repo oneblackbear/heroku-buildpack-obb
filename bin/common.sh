@@ -4,7 +4,7 @@
 set -e
 
 # Uncomment the line below to enable debugging
-# set -x
+set -x
 
 download_and_install_node() {
   version="$1"
