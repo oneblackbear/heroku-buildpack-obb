@@ -54,16 +54,16 @@ fi
 
 cat >>boot.sh <<EOF
 for var in \`env|cut -f1 -d=\`; do
-echo "PassEnv \$var" >> apache/conf/httpd.conf;
+echo "PassEnv \$var" >> /app/apache/conf/httpd.conf;
 done
-touch apache/logs/error_log
-touch apache/logs/access_log
-tail -F apache/logs/error_log &
-tail -F apache/logs/access_log &
-export LD_LIBRARY_PATH=php/ext
-export PHP_INI_SCAN_DIR=/
+touch /app/apache/logs/error_log
+touch /app/apache/logs/access_log
+tail -F /app/apache/logs/error_log &
+tail -F /app/apache/logs/access_log &
+export LD_LIBRARY_PATH=/app/php/ext
+export PHP_INI_SCAN_DIR=/app/
 echo "Launching Apache"
-exec apache/bin/httpd -DNO_DETACH
+exec /app/apache/bin/httpd -DNO_DETACH
 EOF
 
 chmod +x boot.sh
