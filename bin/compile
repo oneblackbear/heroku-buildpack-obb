@@ -5,6 +5,6 @@ BIN_DIR=$(dirname $0)
 BUILD_DIR=$1
 CACHE_DIR=$2
 
-$BIN_DIR/compilenode $BUILD_DIR/www $CACHE_DIR
+$BIN_DIR/compilenode $BUILD_DIR $CACHE_DIR
 $BIN_DIR/compilephp $BUILD_DIR $CACHE_DIR
 

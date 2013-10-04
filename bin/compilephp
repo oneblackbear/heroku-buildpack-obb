@@ -20,15 +20,6 @@ shopt -s dotglob
 
 cd $BUILD_DIR
 
-# move app things to www
-mkdir -p $CACHE_DIR/www
-mv * $CACHE_DIR/www
-mv $CACHE_DIR/www .
-
-# keep Procfile
-if [ -f www/Procfile ]; then
-  mv www/Procfile .
-fi
 
 APACHE_URL="http://dl.dropbox.com/u/62064441/apache.tar.gz"
 echo "-----> Bundling Apache version $APACHE_VERSION"
@@ -41,23 +32,21 @@ curl --silent --max-time 60 --location "$PHP_URL" | tar xz
 # update config files
 cp $LP_DIR/conf/httpd.conf $APACHE_PATH/conf
 cp $LP_DIR/conf/php.ini php
-cp $LP_DIR/conf/php.ini www/php
 
 # make php available on bin
 mkdir -p bin
 ln -s /php/bin/php bin/php
 
-if [ -f www/composer.json ] && [ ! -d www/vendor ]; then
+if [ -f www/composer.json ] && [ ! -d vendor ]; then
     GIT_DIR_ORIG=$GIT_DIR
     unset GIT_DIR
     echo "-----> Bundling Composer"
     COMPOSER_URL="http://getcomposer.org/composer.phar"
-    curl --silent --max-time 60 --location "$COMPOSER_URL" > www/composer.phar
-    cd www
+    curl --silent --max-time 60 --location "$COMPOSER_URL" > composer.phar
     echo "-----> Installing dependencies"
     LD_LIBRARY_PATH=$BUILD_DIR/php/ext $BUILD_DIR/php/bin/php -d date.timezone=UTC composer.phar install --prefer-source
     cd $BUILD_DIR
-    rm www/composer.phar
+    rm composer.phar
     export GIT_DIR=$GIT_DIR_ORIG
 fi
 
@@ -65,16 +54,16 @@ fi
 
 cat >>boot.sh <<EOF
 for var in \`env|cut -f1 -d=\`; do
-echo "PassEnv \$var" >> /www/apache/conf/httpd.conf;
+echo "PassEnv \$var" >> apache/conf/httpd.conf;
 done
-touch /www/apache/logs/error_log
-touch /www/apache/logs/access_log
-tail -F /www/apache/logs/error_log &
-tail -F /www/apache/logs/access_log &
-export LD_LIBRARY_PATH=/www/php/ext
-export PHP_INI_SCAN_DIR=/www/www
+touch /apache/logs/error_log
+touch /apache/logs/access_log
+tail -F /apache/logs/error_log &
+tail -F /apache/logs/access_log &
+export LD_LIBRARY_PATH=/php/ext
+export PHP_INI_SCAN_DIR=/
 echo "Launching Apache"
-exec /www/apache/bin/httpd -DNO_DETACH
+exec /apache/bin/httpd -DNO_DETACH
 EOF
 
 chmod +x boot.sh
