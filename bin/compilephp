@@ -25,7 +25,7 @@ APACHE_URL="http://dl.dropbox.com/u/62064441/apache.tar.gz"
 echo "-----> Bundling Apache version $APACHE_VERSION"
 curl --silent --max-time 60 --location "$APACHE_URL" | tar xz
 
-PHP_URL="http://dl.dropbox.com/u/62064441/php.tar.gz"
+PHP_URL="https://dl.dropboxusercontent.com/u/20154/Software/php-5.5.3-obb-heroku.tar.gz"
 echo "-----> Bundling PHP version $PHP_VERSION"
 curl --silent --max-time 60 --location "$PHP_URL" | tar xz
 
