@@ -21,7 +21,7 @@ shopt -s dotglob
 cd $BUILD_DIR
 
 
-APACHE_URL="http://dl.dropbox.com/u/62064441/apache.tar.gz"
+APACHE_URL="https://dl.dropboxusercontent.com/u/20154/Software/apache.tar.gz"
 echo "-----> Bundling Apache version $APACHE_VERSION"
 curl --silent --max-time 60 --location "$APACHE_URL" | tar xz
 
